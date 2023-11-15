@@ -159,11 +159,11 @@ print("Message:", message)
 print("Signature valide?", valid)
 
 # Vérification d'un message modifié + signature
-message_modifie = b"Tony mon ami pour la vie"
+message_modifie = message
 valid_modifie = sphincs.verify(message_modifie, signature, public_key)
 
 print("Message modifié:", message_modifie)
-print("Signature valide pour le message modifié?", valid_modifie)
+
 
 
 ````
