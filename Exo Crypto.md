@@ -2,6 +2,7 @@
 
 1. Générer et partager une clé de chiffrement AES256 ainsi que les IV avec le destinataire 
 
+![alt tag](https://github.com/Zennael/AIS/issues/1)
 
 2. Comment générer une clé de chiffrement de manière sure ? Quel est le risque si les IV sont toujours les mêmes ? 
 
