@@ -141,6 +141,8 @@ Un petit rendu des scripts:
 
 ### 6. Reprendre la question 4 avec un algorithme post quantique
 
+Mon script python post-quantique
+
 ````python
 
 import pyspx.shake_128f as sphincs
@@ -150,8 +152,11 @@ import os
 seed = os.urandom(sphincs.crypto_sign_SEEDBYTES)
 public_key, secret_key = sphincs.generate_keypair(seed)
 
+# Demande à l'utilisateur d'entrer le message
+user_message = input("Entrez votre message : ")
+message = user_message.encode('utf-8')  # Convertit le message en bytes
+
 # Signature du message et vérification de la signature
-message = b"Tony mon ami pour la vie"
 signature = sphincs.sign(message, secret_key)
 valid = sphincs.verify(message, signature, public_key)
 
@@ -164,10 +169,8 @@ valid_modifie = sphincs.verify(message_modifie, signature, public_key)
 
 print("Message modifié:", message_modifie)
 
-
-
 ````
-   
+
 ### 7. le message suivant a été intercepté : 
 
 "prggr grpuavdhr f'nccryyr yr puvsserzrag qr prnfre, vy a'rfg cyhf hgvyvft nhwbheq'uhv, pne crh ftphevft" 
