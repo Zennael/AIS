@@ -2,7 +2,7 @@
 
 ### 1. Générer et partager une clé de chiffrement AES256 ainsi que les IV avec le destinataire 
 
-![alt tag](https://github.com/Zennael/AIS/blob/main/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.002.png)
+![alt tag]([https://github.com/Zennael/AIS/blob/main/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.002.png](https://github.com/Zennael/AIS/tree/main/Cryptographie/screenshot))
 
 ### 2. Comment générer une clé de chiffrement de manière sure ? Quel est le risque si les IV sont toujours les mêmes ? 
 
@@ -10,11 +10,11 @@ Pour générer une clé de chiffrement sécurisée, il faut utilisez un généra
 
 ### 3. Chiffrer un message et l’envoyer 
 
-![alt tag](https://github.com/Zennael/AIS/blob/main/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.003.png)
+![alt tag]([https://github.com/Zennael/AIS/blob/main/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.003.png](https://github.com/Zennael/AIS/blob/main/Cryptographie/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.003.png))
 
 ### 4. Recevoir et déchiffrer le message 
 
-![alt tag](https://github.com/Zennael/AIS/blob/main/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.004.png)
+![alt tag]([https://github.com/Zennael/AIS/blob/main/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.004.png](https://github.com/Zennael/AIS/blob/main/Cryptographie/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.004.png))
 
 ### 5. Comment pourrait-on s'assurer de l'intégrité du message et de l'authenticité du destinataire ? Ajouter cette fonctionnalité à l'aide d'un script ou d'un outil en CLI. 
 
@@ -137,7 +137,7 @@ input("Appuyez sur Entrée pour quitter...")
 
 Un petit rendu des scripts:
 
-![alt tag](https://github.com/Zennael/AIS/blob/main/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.005.jpeg)
+![alt tag]([https://github.com/Zennael/AIS/blob/main/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.005.jpeg](https://github.com/Zennael/AIS/blob/main/Cryptographie/screenshot/Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.005.jpeg))
 
 ### 6. Reprendre la question 4 avec un algorithme post quantique
 
