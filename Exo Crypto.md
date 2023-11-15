@@ -1,4 +1,4 @@
-**Introduction à la cryptographie ![](Aspose.Words.cfe49b3c-5329-4db8-b9eb-d08292603854.001.png)**
+**Introduction à la cryptographie **
 
 1. Générer et partager une clé de chiffrement AES256 ainsi que les IV avec le destinataire 
 
