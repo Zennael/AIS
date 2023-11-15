@@ -72,7 +72,7 @@ input("Appuyez sur Entrée pour quitter...")
 
 ````
 
-### Script de déchiffrage en python
+### Script de déchiffrement en python
 
 ````python
 from cryptography.hazmat.backends import default_backend
