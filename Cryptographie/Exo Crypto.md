@@ -20,7 +20,7 @@ Pour générer une clé de chiffrement sécurisée, il faut utilisez un généra
 
 J’utilise des clés de chiffrement asymétrique et un calcul de hash  
 
-### script de cryptage en python
+### script de chiffrage en python
 
 ````python
 from cryptography.hazmat.primitives import serialization, hashes
@@ -72,7 +72,7 @@ input("Appuyez sur Entrée pour quitter...")
 
 ````
 
-### Script de decryptage en python
+### Script de déchiffrage en python
 
 ````python
 from cryptography.hazmat.backends import default_backend
