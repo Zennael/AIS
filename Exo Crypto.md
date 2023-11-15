@@ -1,4 +1,4 @@
-***Introduction à la cryptographie***
+# ***Introduction à la cryptographie***
 
 ### 1. Générer et partager une clé de chiffrement AES256 ainsi que les IV avec le destinataire 
 
