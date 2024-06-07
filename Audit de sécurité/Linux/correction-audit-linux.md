@@ -147,4 +147,4 @@
 
 ### Preuve de fonctionnement : 
 
-! [alt tag](https://github.com/Zennael/AIS/blob/main/Audit%20de%20s%C3%A9curit%C3%A9/Screenshot/preuve%20linux.png)
+![alt tag](https://github.com/Zennael/AIS/blob/main/Audit%20de%20s%C3%A9curit%C3%A9/Screenshot/preuve%20linux.png)
