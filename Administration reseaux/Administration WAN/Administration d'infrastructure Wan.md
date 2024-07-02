@@ -15,8 +15,8 @@ R32# router-id 9.9.9.9
 R32# redistribute bgp 300 match internal external
 ````
 
-![alt tag](https://github.com/Zennael/AIS/blob/main/Administration%20reseaux/R32%20BGP.png)
-![alt tag](https://github.com/Zennael/AIS/blob/main/Administration%20reseaux/R32%20OSPF.png)
+![alt tag](https://github.com/Zennael/AIS/blob/main/Administration%20reseaux/Administration%20WAN/R32%20BGP.png)
+![alt tag](https://github.com/Zennael/AIS/blob/main/Administration%20reseaux/Administration%20WAN/R32%20OSPF.png)
 
 ##### Router pas bordure
 
@@ -31,5 +31,5 @@ R31# router bgp 300
 R31# redistribute ospf 1 match subnets
 ````
 
-![alt tag](https://github.com/Zennael/AIS/blob/main/Administration%20reseaux/R31%20OSPF.png)
-![alt tag](https://github.com/Zennael/AIS/blob/main/Administration%20reseaux/R31%20BGP.png)
+![alt tag](https://github.com/Zennael/AIS/blob/main/Administration%20reseaux/Administration%20WAN/R31%20OSPF.png)
+![alt tag](https://github.com/Zennael/AIS/blob/main/Administration%20reseaux/Administration%20WAN/R31%20BGP.png)

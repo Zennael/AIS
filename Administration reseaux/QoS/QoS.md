@@ -21,7 +21,7 @@
   
 - Les deux débits sont-ils identiques ? Pourquoi ?
 
-*On vois une différence de débit car il envoie en priorité les paquets a l'interface du routeur qui est priorisé"
+*On vois une différence de débit car il envoie en priorité les paquets a l'interface du routeur qui est priorisé*
 
 - En mode "simulation", à partir du poste H1, retrouver le code DSCP correspondant au paquet
 arrivant dans le routeur par le port Fa1/0 et sortant par le port Fa0/1
