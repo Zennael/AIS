@@ -30,3 +30,4 @@ arrivant dans le routeur par le port Fa1/0 et sortant par le port Fa0/1
 
 - Idem pour les paquets arrivant par le port Fa0/0 depuis le poste G1 et sortant par le port Fa0/1
 
+![alt text](image-4.png)
