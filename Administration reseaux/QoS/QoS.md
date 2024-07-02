@@ -8,7 +8,7 @@
 
 - Les deux débits sont-ils identiques ? Pourquoi ?
 
-*Les débits sont identiques car il n'y à pas de priorisation*
+*Les débits sont identiques car il n'y a pas de priorisation*
 
 
 ## QoS activé en fonction de l'interface source
