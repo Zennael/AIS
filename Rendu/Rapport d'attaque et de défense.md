@@ -340,6 +340,10 @@ alert tcp any any -> any 80 (msg:"Possible DoS attack"; flags:PA; content:"GET /
 alert ip 10.0.0.210 any -> 10.0.0.248 any (msg:"Surveillance trafic 10.0.0.210 vers ma machine"; sid:1000010; rev:1;)
 
 ```
+## Statistique des règles
+
+![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/RulesCount.png)
+
 ## Screenshot des potentielles attaques
 
 ![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/ICMP.png)
