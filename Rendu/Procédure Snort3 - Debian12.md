@@ -81,5 +81,5 @@ cd /usr/local/snort/bin
 ./snort -V
 ```
 
-
+![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/snort-version.png)
 
