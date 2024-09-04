@@ -2,7 +2,7 @@
 
 ## Fichier Rules
 
-Ceci est le fichier test.rules proposer par la communauté de snort avec quelque regles en plus nous concernant 
+Voici quelques règles proposer par la communauté de snort avec quelque regles en plus nous concernant 
 
 ```bash
 alert tcp any 2589 -> any any ( msg:"MALWARE-BACKDOOR - Dagger_1.4.0"; flow:to_client,established; content:"2|00 00 00 06 00 00 00|Drives|24 00|",depth 16; metadata:ruleset community; classtype:misc-activity; sid:105; rev:14; )
