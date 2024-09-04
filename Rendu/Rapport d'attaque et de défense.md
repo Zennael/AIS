@@ -347,3 +347,5 @@ alert ip 10.0.0.210 any -> 10.0.0.248 any (msg:"Surveillance trafic 10.0.0.210 v
 ## Screenshot des potentielles attaques
 
 ![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/ICMP.png)
+
+![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/ICMP2.png)
