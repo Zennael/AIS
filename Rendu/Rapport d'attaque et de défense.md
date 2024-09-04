@@ -349,3 +349,27 @@ alert ip 10.0.0.210 any -> 10.0.0.248 any (msg:"Surveillance trafic 10.0.0.210 v
 ![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/ICMP.png)
 
 ![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/ICMP2.png)
+
+## Bloquer tout le trafic ICMP entrant
+sudo iptables -A INPUT -p icmp --icmp-type all -j DROP
+
+## Accepter les connexions SSH existantes
+sudo iptables -A INPUT -p tcp --dport 22 -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+## Limiter les nouvelles connexions SSH : 5 tentatives en 60 secondes
+sudo iptables -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --set
+sudo iptables -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --update --seconds 60 --hitcount 5 -j REJECT
+
+# Rapport d'attaque
+
+## scan Nmap
+
+![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/NMAPort.png)
+
+![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/NMAPA.png)
+
+## attaque ssh avec dictionnaire 
+
+![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/SSHOK.png)
+
+![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/SSHOK2.png)
