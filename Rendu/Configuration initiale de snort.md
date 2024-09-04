@@ -79,3 +79,5 @@ Lancer la capture Snort
 ```
 sudo snort -c /etc/snort/snort.lua -R /etc/snort/rules/test.rules -i eth0 -A alert_fast -l /var/log/snort
 ```
+
+![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/snort-Sniffe.png)
