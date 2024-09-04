@@ -370,6 +370,10 @@ sudo iptables -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --update
 
 ## attaque ssh avec dictionnaire 
 
+### Mot de passe trouver
+
 ![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/SSHOK.png)
+
+### Connexion a la machine cible
 
 ![alt tag](https://github.com/Zennael/AIS/blob/main/Rendu/Screenshot/SSHOK2.png)
