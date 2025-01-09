@@ -4,7 +4,7 @@
 
 ````
 [windows]
-192.168.10.10 (ip du serveur)
+192.168.1.10 (ip du serveur)
 
 [windows:vars]
 ansible_user=user@localdomain.com
