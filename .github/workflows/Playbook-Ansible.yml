@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - 'Ansible/PlaybookLinux.yaml'
-      - 'Ansible/PlaybookWindows.yaml'
 
 jobs:
   run-playbook:
@@ -24,7 +23,3 @@ jobs:
         run: |
           ansible-playbook Ansible/PlaybookLinux.yaml -i Ansible/inventory
 
-      - name: Run Windows Playbook
-        if: "contains(github.event.head_commit.message, 'windows')"
-        run: |
-          ansible-playbook Ansible/PlaybookWindows.yaml -i Ansible/inventory
