@@ -112,3 +112,4 @@
     - name: enable_ufw
       ufw:
         state: enabled
+        
