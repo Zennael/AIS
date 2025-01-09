@@ -3,7 +3,7 @@ name: Playbook Ansible
 on:
   push:
     paths:
-      - 'DevOps/Ansible/PlaybookLinux.yaml'
+      - 'Ansible/PlaybookLinux.yaml'
 
 jobs:
   run-playbook:
