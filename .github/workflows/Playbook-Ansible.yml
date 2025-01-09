@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'Ansible/PlaybookLinux.yaml'
+      - 'Ansible/PlaybookWindows.yaml'
 
 jobs:
   run-playbook:
