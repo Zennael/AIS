@@ -12,14 +12,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Ansible
         run: |
           sudo apt-get update
           sudo apt-get install -y ansible
 
-      - name: Run Ansible Playbook
+      - name: Run Linux Playbook
+        if: "contains(github.event.head_commit.message, 'linux')"
         run: |
           ansible-playbook Ansible/PlaybookLinux.yaml -i Ansible/inventory
+
+      - name: Run Windows Playbook
+        if: "contains(github.event.head_commit.message, 'windows')"
+        run: |
           ansible-playbook Ansible/PlaybookWindows.yaml -i Ansible/inventory
