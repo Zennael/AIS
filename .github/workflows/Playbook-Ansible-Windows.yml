@@ -32,11 +32,6 @@ jobs:
       run: |
         python -X utf8 -c "import locale; print(locale.getpreferredencoding())"
 
-    - name: Configure Ansible Inventory
-      run: |
-        echo "[windows]" > hosts
-        echo "localhost ansible_connection=local" >> hosts
-
     - name: Run Ansible Playbook
       shell: bash
       env:
