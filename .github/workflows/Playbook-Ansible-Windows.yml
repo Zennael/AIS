@@ -17,14 +17,14 @@ jobs:
     - name: Configure Static IP on Windows
       id: set-ip
       run: |
-        $ip = "192.168.11.100"
+        $ip = "192.168.12.100"
         $interface = Get-NetAdapter | Where-Object { $_.Status -eq "Up" } | Select-Object -First 1
         if (-not $interface) {
           Write-Error "No active network interface found. Exiting."
           exit 1
         }
         Write-Host "Configuring Windows IP: $ip on interface $($interface.InterfaceAlias)..."
-        New-NetIPAddress -IPAddress $ip -PrefixLength 24 -DefaultGateway 192.168.11.1 -InterfaceAlias $interface.InterfaceAlias
+        New-NetIPAddress -IPAddress $ip -PrefixLength 24 -DefaultGateway 192.168.12.1 -InterfaceAlias $interface.InterfaceAlias
         Write-Host "IP configured successfully on $($interface.InterfaceAlias)."
         echo $ip > windows_ip.txt
         echo "::set-output name=ip::$ip"
@@ -55,10 +55,10 @@ jobs:
     - name: Configure Static IP on Linux
       id: set-ip
       run: |
-        sudo ip addr add 192.168.11.101/24 dev eth0
-        sudo ip route add default via 192.168.11.1
+        sudo ip addr add 192.168.12.101/24 dev eth0
+        sudo ip route add default via 192.168.12.1
         echo "192.168.11.101" > linux_ip.txt
-        echo "::set-output name=ip::192.168.11.101"
+        echo "::set-output name=ip::192.168.12.101"
 
     - name: Install Ansible and Dependencies
       run: |
