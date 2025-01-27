@@ -1,0 +1,27 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: delegated
+
+platforms:
+  - name: windows_server_2022
+    image: mcr.microsoft.com/windows/server:ltsc2022
+    pre_build_image: true
+    privileged: true
+
+provisioner:
+  name: ansible
+  inventory:
+    hosts:
+      all:
+        hosts:
+          windows:
+            ansible_connection: winrm
+            ansible_user: Administrator
+            ansible_password: your_password
+            ansible_winrm_transport: basic
+
+verifier:
+  name: ansible
