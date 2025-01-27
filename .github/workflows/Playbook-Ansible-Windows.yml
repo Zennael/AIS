@@ -12,39 +12,17 @@ jobs:
   configure-windows:
     runs-on: windows-latest
     outputs:
-      windows_ip: ${{ steps.get_ip.outputs.ip }}
+      windows_ip: ${{ steps.set-ip.outputs.ip }}
     steps:
     - name: Configure Static IP
+      id: set-ip
       run: |
-        try {
-          Write-Host "Fetching the active network interface..."
-          $interface = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Select-Object -First 1
-          if (-not $interface) {
-            Write-Error "No active network interface found. Exiting."
-            exit 1
-          }
-          Write-Host "Active network interface: $($interface.Name)"
-
-
-          Write-Host "Configuring static IP for the interface..."
-          New-NetIPAddress -InterfaceIndex $interface.ifIndex -IPAddress 192.168.77.100 -PrefixLength 24 -DefaultGateway 192.168.77.1 -ErrorAction Stop
-
-          Write-Host "Setting DNS servers..."
-          Set-DnsClientServerAddress -InterfaceIndex $interface.ifIndex -ServerAddresses 8.8.8.8,8.8.4.4 -ErrorAction Stop
-
-          Write-Host "Fetching the configured IP address..."
-          $ip = (Get-NetIPAddress -InterfaceIndex $interface.ifIndex -AddressFamily IPv4).IPAddress
-          if (-not $ip) {
-            Write-Error "Failed to fetch the configured IP address. Exiting."
-            exit 1
-          }
-
-          Write-Host "Configured IP: $ip"
-          echo "::set-output name=ip::$ip"
-        } catch {
-          Write-Error "An error occurred: $_"
-          exit 1
-        }
+        $ip = "192.168.11.100"
+        Write-Host "Configuring Windows IP: $ip..."
+        New-NetIPAddress -IPAddress $ip -PrefixLength 24 -DefaultGateway 192.168.11.1
+        Write-Host "IP configured successfully."
+        echo $ip > windows_ip.txt
+        echo "::set-output name=ip::$ip"
 
     - name: Configure WinRM
       run: |
@@ -52,31 +30,62 @@ jobs:
         Set-Item wsman:\localhost\Service\Auth\Basic -Value $true
         Set-Item wsman:\localhost\Service\AllowUnencrypted -Value $true
         Restart-Service WinRM
+        New-NetFirewallRule -DisplayName "Allow ICMPv4-In" -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow
         New-NetFirewallRule -DisplayName "Allow WinRM" -Direction Inbound -Protocol TCP -LocalPort 5985 -Action Allow
 
-  run-ansible:
+    - name: Save IP as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-ip
+        path: windows_ip.txt
+
+  run-linux:
     runs-on: ubuntu-latest
     needs: configure-windows
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
+    - name: Configure Static IP on Linux
+      id: set-ip
+      run: |
+        sudo ip addr add 192.168.11.101/24 dev eth0
+        sudo ip route add default via 192.168.11.1
+        echo "192.168.11.101" > linux_ip.txt
+        echo "::set-output name=ip::192.168.11.101"
+
     - name: Install Ansible and Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y ansible
         python3 -m pip install --upgrade pip
-        pip install pywinrm requests
-        python3 -c "import winrm; print('winrm is installed and ready')"
+        python3 -m pip install pywinrm requests
+
+    - name: Download Windows IP Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-ip
+        path: ./  # Download the artifact to the current directory
+
+    - name: Read Windows IP
+      id: read-ip
+      run: |
+        WINDOWS_IP=$(cat windows_ip.txt)
+        echo "Windows IP: $WINDOWS_IP"
+        echo "::set-output name=ip::$WINDOWS_IP"
 
     - name: Ping Windows Machine
       run: |
-        echo "Pinging Windows machine for 4 seconds..."
-        ping -c 4 192.168.77.100
-        echo "Ping completed."
+        echo "Pinging Windows machine..."
+        ping -c 4 $(cat windows_ip.txt)
+        echo "Ping completed successfully."
+
+    - name: Test Ansible WinRM Connection
+      run: |
+        ansible -i Ansible/inventory.ini -m win_ping windows
 
     - name: Run Ansible Playbook
       env:
         ANSIBLE_HOST_KEY_CHECKING: "False"
       run: |
-        ansible-playbook -i Ansible/inventory.ini Ansible/PlaybookWindows2.yaml
+        ansible-playbook -i Ansible/inventory.ini Ansible/PlaybookWindows.yaml
