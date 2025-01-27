@@ -41,13 +41,9 @@ jobs:
         echo "[windows]" > inventory
         echo "localhost ansible_connection=winrm ansible_user=Administrator ansible_password=<YOUR_PASSWORD>" >> inventory
 
-    - name: Validate Encoding
-      shell: bash
-      run: |
-        python -c "import locale; print(locale.getpreferredencoding())"
-
-
     - name: Test Ansible Playbook
+      env:
+        PYTHONIOENCODING: "utf-8"
       run: |
         ansible-playbook -i hosts Ansible/PlaybookWindows.yaml 
 
