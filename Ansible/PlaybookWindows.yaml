@@ -4,12 +4,6 @@
   gather_facts: no
   tasks:
 
-     - name: Ensure WinRM is configured
-       win_service:
-          name: WinRM
-          start_mode: auto
-          state: started
-
      - name: Set password policy
        win_shell: |
          Import-Module ActiveDirectory
