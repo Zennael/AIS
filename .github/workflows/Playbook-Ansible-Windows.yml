@@ -23,23 +23,17 @@ jobs:
         with:
           python-version: '3.9'
 
+      # Install Molecule and Docker dependencies
       - name: Install Molecule and Docker dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install molecule[docker] ansible
-
-
-      # Install dependencies
-      - name: Install Ansible and dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install ansible molecule[docker] docker pywinrm
+          pip install molecule[docker] ansible pywinrm
 
       # Set up Ansible inventory for Windows
       - name: Create Ansible inventory
         run: |
           echo '[windows]' > inventory
-          echo 'localhost ansible_connection=winrm ansible_user=Administrator ansible_password=your_password ansible_winrm_transport=basic' >> inventory
+          echo "localhost ansible_connection=winrm ansible_user=Administrator ansible_password=${{ secrets.WINDOWS_PASSWORD }} ansible_winrm_transport=basic" >> inventory
 
       # Run Molecule tests
       - name: Run Molecule tests
