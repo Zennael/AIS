@@ -1,12 +1,12 @@
 name: Test Ansible Playbook Windows
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Ansible'
+        required: true
+        default: 'Playbook'
 
 jobs:
   test-ansible:
