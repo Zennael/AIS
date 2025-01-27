@@ -12,6 +12,7 @@ jobs:
   test-ansible:
     runs-on: ubuntu-latest
 
+
     steps:
       # Checkout the repository
       - name: Checkout repository
@@ -23,17 +24,23 @@ jobs:
         with:
           python-version: '3.9'
 
-      # Install Molecule and Docker dependencies
-      - name: Install Molecule and Docker dependencies
+      # Install Molecule and dependencies
+      - name: Install Molecule and dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install molecule[docker] ansible pywinrm
+          pip install molecule molecule[docker] molecule[delegated] ansible pywinrm
 
       # Set up Ansible inventory for Windows
       - name: Create Ansible inventory
         run: |
           echo '[windows]' > inventory
           echo "localhost ansible_connection=winrm ansible_user=Administrator ansible_password=${{ secrets.WINDOWS_PASSWORD }} ansible_winrm_transport=basic" >> inventory
+
+      # Debug Molecule installation
+      - name: Debug Molecule installation
+        run: |
+          molecule --version
+          pip list | grep molecule
 
       # Run Molecule tests
       - name: Run Molecule tests
