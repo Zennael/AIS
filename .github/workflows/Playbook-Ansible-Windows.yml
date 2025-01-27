@@ -27,45 +27,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install ansible pywinrm
 
-    - name: Configure UTF-8 Encoding
-      shell: powershell
-      run: |
-        $env:PYTHONIOENCODING="utf-8"
-        $env:PYTHONUTF8="1"
-        [System.Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        chcp 65001
-        echo "UTF-8 Encoding Configured"
-
-    name: Test Ansible Playbook on Windows
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-
-jobs:
-  test-playbook:
-    runs-on: windows-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: Install Ansible and dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install ansible pywinrm
-
     - name: Validate Locale Encoding
       shell: bash
       run: |
         python -X utf8 -c "import locale; print(locale.getpreferredencoding())"
+
+    - name: Configure Ansible Inventory
+      run: |
+        echo "[windows]" > hosts
+        echo "localhost ansible_connection=local" >> hosts
 
     - name: Run Ansible Playbook
       shell: bash
@@ -73,8 +43,5 @@ jobs:
         PYTHONIOENCODING: utf-8
         PYTHONUTF8: "1"
       run: |
-        python -X utf8 -m ansible.cli.ansible_playbook -i hosts Ansible/PlaybookWindows.yaml
-
-      run: |
-        ansible-playbook -i Ansible/inventory.ini Ansible/PlaybookWindows.yaml 
+        python -X utf8 -m ansible.cli.ansible_playbook -i Ansible/inventory.ini Ansible/PlaybookWindows.yaml 
 
