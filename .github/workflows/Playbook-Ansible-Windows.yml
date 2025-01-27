@@ -23,6 +23,8 @@ jobs:
             Write-Error "No active network interface found. Exiting."
             exit 1
           }
+          Write-Host "Active network interface: $($interface.Name)"
+
 
           Write-Host "Configuring static IP for the interface..."
           New-NetIPAddress -InterfaceIndex $interface.ifIndex -IPAddress 192.168.1.100 -PrefixLength 24 -DefaultGateway 192.168.1.1 -ErrorAction Stop
