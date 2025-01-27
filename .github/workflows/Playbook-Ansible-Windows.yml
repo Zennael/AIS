@@ -39,7 +39,7 @@ jobs:
       run: |
         $env:ANSIBLE_HOST_KEY_CHECKING = "False"
         echo "[windows]" > inventory
-        echo "localhost ansible_connection=winrm ansible_user=Administrator ansible_password=<YOUR_PASSWORD>" >> inventory
+        echo "localhost ansible_connection=winrm ansible_user=Administrator ansible_password=Toto123123Toto" >> inventory
 
     - name: Test Ansible Playbook
       env:
