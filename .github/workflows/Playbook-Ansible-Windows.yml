@@ -27,7 +27,7 @@ jobs:
 
 
           Write-Host "Configuring static IP for the interface..."
-          New-NetIPAddress -InterfaceIndex $interface.ifIndex -IPAddress 192.168.76.100 -PrefixLength 24 -DefaultGateway 192.168.76.1 -ErrorAction Stop
+          New-NetIPAddress -InterfaceIndex $interface.ifIndex -IPAddress 192.168.77.100 -PrefixLength 24 -DefaultGateway 192.168.77.1 -ErrorAction Stop
 
           Write-Host "Setting DNS servers..."
           Set-DnsClientServerAddress -InterfaceIndex $interface.ifIndex -ServerAddresses 8.8.8.8,8.8.4.4 -ErrorAction Stop
@@ -73,4 +73,4 @@ jobs:
       env:
         ANSIBLE_HOST_KEY_CHECKING: "False"
       run: |
-        ansible-playbook -i Ansible/inventory.ini Ansible/PlaybookWindows.yaml
+        ansible-playbook -i Ansible/inventory.ini Ansible/PlaybookWindows2.yaml
