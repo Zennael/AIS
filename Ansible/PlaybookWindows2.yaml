@@ -1,0 +1,116 @@
+---
+- name: Harden Windows 11
+  hosts: windows
+  tasks:
+
+  - name: Ensure password complexity is enabled
+    ansible.windows.win_user_right:
+      name: PasswordComplexity
+      policy_option: Enabled
+
+  - name: Set minimum password length to 14 characters
+    ansible.windows.win_password_policy:
+      policy: MinPasswordLength
+      value: 14
+
+  - name: Set maximum password age to 60 days
+    ansible.windows.win_password_policy:
+      policy: MaxPasswordAge
+      value: 60
+
+  - name: Set lockout threshold to 5 invalid attempts
+    ansible.windows.win_account_lockout_policy:
+      policy: LockoutBadCount
+      value: 5
+
+  - name: Set lockout duration to 30 minutes
+    ansible.windows.win_account_lockout_policy:
+      policy: LockoutDuration
+      value: 30
+
+  - name: Rename Administrator account
+    ansible.windows.win_user:
+      name: Administrator
+      new_name: AdminSecure
+
+  - name: Disable Guest account
+    ansible.windows.win_user:
+      name: Guest
+      state: disabled
+
+  - name: Enable Windows Firewall
+    ansible.windows.win_feature:
+      name: Windows-Defender-Features
+      state: present
+
+  - name: Ensure Windows Firewall is running
+    ansible.windows.win_service:
+      name: MpsSvc
+      state: started
+      start_mode: auto
+
+  - name: Disable Windows Remote Management (WinRM) if not needed
+    ansible.windows.win_service:
+      name: WinRM
+      state: stopped
+      start_mode: disabled
+    ignore_errors: true
+
+  - name: Enable UAC (User Account Control)
+    ansible.windows.win_regedit:
+      path: HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+      name: EnableLUA
+      data: 1
+      type: dword
+
+  - name: Disable SMBv1
+    ansible.windows.win_regedit:
+      path: HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters
+      name: SMB1
+      data: 0
+      type: dword
+
+  - name: Disable TLS 1.0 and 1.1
+    ansible.windows.win_regedit:
+      path: HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Server
+      name: Enabled
+      data: 0
+      type: dword
+    ignore_errors: true
+
+  - name: Enable Windows Defender
+    ansible.windows.win_feature:
+      name: Windows-Defender-Features
+      state: present
+
+  - name: Enable security auditing
+    ansible.windows.win_audit_policy:
+      category: Account Logon
+      subcategory: Logon
+      setting: Success and Failure
+
+  - name: Configure event log size
+    ansible.windows.win_eventlog:
+      name: Security
+      maximum_size: 65536  # Set maximum size to 64MB
+      retention_method: OverwriteAsNeeded
+
+  - name: Disable Cortana
+    ansible.windows.win_regedit:
+      path: HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search
+      name: AllowCortana
+      data: 0
+      type: dword
+
+  - name: Disable Remote Desktop Protocol (RDP)
+    ansible.windows.win_feature:
+      name: Remote-Desktop-Services
+      state: absent
+    ignore_errors: true
+
+  - name: Disable telemetry and data collection
+    ansible.windows.win_regedit:
+      path: HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection
+      name: AllowTelemetry
+      data: 0
+      type: dword
