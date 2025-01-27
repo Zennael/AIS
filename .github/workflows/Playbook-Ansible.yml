@@ -13,13 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Ansible
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ansible
+          sudo apt-get install -y python3 python3-pip
+          pip3 install ansible passlib
 
-      - name: Run Linux Playbook
-        if: "contains(github.event.head_commit.message, 'linux')"
+      - name: Run Ansible Playbook
         run: |
-          ansible-playbook Ansible/PlaybookLinux.yaml -i Ansible/inventory
+          ansible-playbook DevOps/Ansible/PlaybookLinux.yaml -i localhost, --extra-vars "ansible_connection=local"
 
