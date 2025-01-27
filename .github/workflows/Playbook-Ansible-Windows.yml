@@ -14,19 +14,21 @@ jobs:
     outputs:
       windows_ip: ${{ steps.get_ip.outputs.ip }}
     steps:
-    - name: Configure Windows Host
+    - name: Configure Static IP
+      id: set_ip
       run: |
-        # Configuration nécessaire pour activer WinRM
+        $interface = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }
+        New-NetIPAddress -InterfaceIndex $interface.ifIndex -IPAddress 192.168.1.100 -PrefixLength 24 -DefaultGateway 192.168.1.1
+        Set-DnsClientServerAddress -InterfaceIndex $interface.ifIndex -ServerAddresses 8.8.8.8,8.8.4.4
+        $ip = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -eq '192.168.1.100' }).IPAddress
+        echo "::set-output name=ip::$ip"
+
+    - name: Configure WinRM
+      run: |
         Enable-PSRemoting -Force
         Set-Item wsman:\localhost\Service\Auth\Basic -Value $true
         Set-Item wsman:\localhost\Service\AllowUnencrypted -Value $true
         Restart-Service WinRM
-
-    - name: Get Windows Machine IP
-      id: get_ip
-      run: |
-        $ip = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -notlike '*Loopback*' }).IPAddress
-        echo "::set-output name=ip::$ip"
 
   run-ansible:
     runs-on: ubuntu-latest
@@ -42,14 +44,8 @@ jobs:
         python3 -m pip install --upgrade pip
         pip install pywinrm
 
-    - name: Configure Ansible Inventory
-      run: |
-        echo "[windows]" > inventory.ini
-        echo "${{ needs.configure-windows.outputs.windows_ip }} ansible_connection=winrm ansible_user=Administrator ansible_password=YourPassword ansible_winrm_transport=basic" >> inventory.ini
-        cat inventory.ini
-
     - name: Run Ansible Playbook
       env:
         ANSIBLE_HOST_KEY_CHECKING: "False"
       run: |
-        ansible-playbook -i inventory.ini Ansible/PlaybookWindows.yaml
+        ansible-playbook -i Ansible/inventory.ini Ansible/PlaybookWindows.yaml
