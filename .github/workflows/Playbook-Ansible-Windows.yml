@@ -28,17 +28,24 @@ jobs:
         pip install ansible pywinrm
 
     - name: Set UTF-8 Locale
-      env:
-        PYTHONIOENCODING: "utf-8"
-        PYTHONUTF8: "1"
+      shell: bash
       run: |
-        echo "UTF-8 environment configured."
+        export PYTHONIOENCODING=utf-8
+        export PYTHONUTF8=1
+        chcp.com 65001
+        echo "Locale and encoding set to UTF-8."
 
     - name: Configure Windows host for Ansible
       run: |
         $env:ANSIBLE_HOST_KEY_CHECKING = "False"
         echo "[windows]" > inventory
         echo "localhost ansible_connection=winrm ansible_user=Administrator ansible_password=<YOUR_PASSWORD>" >> inventory
+
+    - name: Validate Encoding
+      shell: bash
+      run: |
+        python -c "import locale; print(locale.getpreferredencoding())"
+
 
     - name: Test Ansible Playbook
       run: |
