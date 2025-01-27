@@ -66,7 +66,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y ansible
         python3 -m pip install --upgrade pip
-        pip install pywinrm
+        pip install pywinrm requests
+        python3 -c "import winrm; print('winrm is installed and ready')"
 
     - name: Run Ansible Playbook
       env:
