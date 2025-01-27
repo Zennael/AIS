@@ -8,10 +8,10 @@ on:
         required: true
         default: 'Playbook'
 
+
 jobs:
   test-ansible:
     runs-on: ubuntu-latest
-
 
     steps:
       # Checkout the repository
@@ -30,13 +30,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install molecule molecule[docker] ansible pywinrm
 
-      # Debug Molecule installation
-      - name: Debug Molecule installation
+      # Validate Molecule configuration
+      - name: Validate Molecule configuration
         run: |
-          molecule --version
-          pip list | grep molecule
+          ls Ansible\molecule.yml
+          molecule list
 
       # Run Molecule tests
       - name: Run Molecule tests
         run: |
+          cd Ansible\molecule.yml
           molecule test
+
