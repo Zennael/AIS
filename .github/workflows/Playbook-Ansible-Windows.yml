@@ -16,11 +16,33 @@ jobs:
     steps:
     - name: Configure Static IP
       run: |
-        $interface = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Select-Object -First 1
-        New-NetIPAddress -InterfaceIndex $interface.ifIndex -IPAddress 192.168.1.100 -PrefixLength 24 -DefaultGateway 192.168.1.1
-        Set-DnsClientServerAddress -InterfaceIndex $interface.ifIndex -ServerAddresses 8.8.8.8,8.8.4.4
-        $ip = (Get-NetIPAddress -InterfaceIndex $interface.ifIndex -AddressFamily IPv4).IPAddress
-        echo "::set-output name=ip::$ip"
+        try {
+          Write-Host "Fetching the active network interface..."
+          $interface = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Select-Object -First 1
+          if (-not $interface) {
+            Write-Error "No active network interface found. Exiting."
+            exit 1
+          }
+
+          Write-Host "Configuring static IP for the interface..."
+          New-NetIPAddress -InterfaceIndex $interface.ifIndex -IPAddress 192.168.1.100 -PrefixLength 24 -DefaultGateway 192.168.1.1 -ErrorAction Stop
+
+          Write-Host "Setting DNS servers..."
+          Set-DnsClientServerAddress -InterfaceIndex $interface.ifIndex -ServerAddresses 8.8.8.8,8.8.4.4 -ErrorAction Stop
+
+          Write-Host "Fetching the configured IP address..."
+          $ip = (Get-NetIPAddress -InterfaceIndex $interface.ifIndex -AddressFamily IPv4).IPAddress
+          if (-not $ip) {
+            Write-Error "Failed to fetch the configured IP address. Exiting."
+            exit 1
+          }
+
+          Write-Host "Configured IP: $ip"
+          echo "::set-output name=ip::$ip"
+        } catch {
+          Write-Error "An error occurred: $_"
+          exit 1
+        }
 
     - name: Configure WinRM
       run: |
