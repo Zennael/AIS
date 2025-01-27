@@ -27,6 +27,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install ansible pywinrm
 
+    - name: Set UTF-8 Locale
+      run: |
+        $env:PYTHONIOENCODING="utf-8"
+        $env:PYTHONUTF8="1"
+        [System.Text.Encoding]::Default = [System.Text.Encoding]::UTF8
+
     - name: Configure Windows host for Ansible
       run: |
         $env:ANSIBLE_HOST_KEY_CHECKING = "False"
