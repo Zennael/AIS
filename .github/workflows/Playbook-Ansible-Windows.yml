@@ -25,7 +25,7 @@ jobs:
           }
 
           Write-Host "Configuring static IP for the interface..."
-          New-NetIPAddress -InterfaceIndex $interface.ifIndex -IPAddress 192.168.15.100 -PrefixLength 24 -DefaultGateway 192.168.15.1 -ErrorAction Stop
+          New-NetIPAddress -InterfaceIndex $interface.ifIndex -IPAddress 192.168.20.100 -PrefixLength 24 -DefaultGateway 192.168.20.1 -ErrorAction Stop
 
           Write-Host "Setting DNS servers..."
           Set-DnsClientServerAddress -InterfaceIndex $interface.ifIndex -ServerAddresses 8.8.8.8,8.8.4.4 -ErrorAction Stop
@@ -62,8 +62,8 @@ jobs:
     - name: Configure Static IP on Linux
       id: set-ip
       run: |
-        sudo ip addr add 192.168.15.101/24 dev eth0
-        sudo ip route add default via 192.168.15.1
+        sudo ip addr add 192.168.20.101/24 dev eth0
+        sudo ip route add default via 192.168.20.1
 
     - name: Install Ansible and Dependencies
       run: |
@@ -75,7 +75,7 @@ jobs:
     - name: Ping Windows Machine
       run: |
         echo "Pinging Windows machine for 4 seconds..."
-        ping -c 4 192.168.15.100
+        ping -c 4 192.168.20.100
         echo "Ping completed."
 
     - name: Test Ansible WinRM Connection
