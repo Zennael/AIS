@@ -69,6 +69,12 @@ jobs:
         pip install pywinrm requests
         python3 -c "import winrm; print('winrm is installed and ready')"
 
+    - name: Ping Windows Machine
+      run: |
+        echo "Pinging Windows machine for 4 seconds..."
+        ping -c 4 192.168.77.100
+        echo "Ping completed."
+
     - name: Run Ansible Playbook
       env:
         ANSIBLE_HOST_KEY_CHECKING: "False"
