@@ -4,33 +4,18 @@ dependency:
 
 driver:
   name: delegated
+  options:
+    managed: false
 
 platforms:
   - name: localhost
 
 provisioner:
   name: ansible
-
-verifier:
-  name: ansible
-
-platforms:
-  - name: windows_server_2022
-    image: mcr.microsoft.com/windows/server:ltsc2022
-    pre_build_image: true
-    privileged: true
-
-provisioner:
-  name: ansible
   inventory:
-    hosts:
-      all:
-        hosts:
-          windows:
-            ansible_connection: winrm
-            ansible_user: Administrator
-            ansible_password: your_password
-            ansible_winrm_transport: basic
+    host_vars:
+      localhost:
+        ansible_connection: local
 
 verifier:
   name: ansible
