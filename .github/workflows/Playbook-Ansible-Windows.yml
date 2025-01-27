@@ -28,13 +28,7 @@ jobs:
       - name: Install Molecule and dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install molecule molecule[docker] molecule[delegated] ansible pywinrm
-
-      # Set up Ansible inventory for Windows
-      - name: Create Ansible inventory
-        run: |
-          echo '[windows]' > inventory
-          echo "localhost ansible_connection=winrm ansible_user=Administrator ansible_password=${{ secrets.WINDOWS_PASSWORD }} ansible_winrm_transport=basic" >> inventory
+          pip install molecule molecule[docker] ansible pywinrm
 
       # Debug Molecule installation
       - name: Debug Molecule installation
