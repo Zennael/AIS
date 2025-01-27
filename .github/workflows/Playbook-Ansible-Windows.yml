@@ -36,16 +36,45 @@ jobs:
         chcp 65001
         echo "UTF-8 Encoding Configured"
 
-    - name: Validate Encoding
-      shell: powershell
+    name: Test Ansible Playbook on Windows
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-playbook:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Ansible and dependencies
       run: |
-        python -c "import locale; print(locale.getpreferredencoding())"
+        python -m pip install --upgrade pip
+        pip install ansible pywinrm
+
+    - name: Validate Locale Encoding
+      shell: bash
+      run: |
+        python -X utf8 -c "import locale; print(locale.getpreferredencoding())"
 
     - name: Run Ansible Playbook
-      shell: powershell
+      shell: bash
       env:
         PYTHONIOENCODING: utf-8
         PYTHONUTF8: "1"
+      run: |
+        python -X utf8 -m ansible.cli.ansible_playbook -i hosts Ansible/PlaybookWindows.yaml
+
       run: |
         ansible-playbook -i Ansible/inventory.ini Ansible/PlaybookWindows.yaml 
 
