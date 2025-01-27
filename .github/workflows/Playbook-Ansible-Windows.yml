@@ -49,5 +49,5 @@ jobs:
 
     - name: Test Ansible Playbook
       run: |
-        ansible-playbook Ansible/PlaybookWindows.yaml -i localhost
+        ansible-playbook -i hosts Ansible/PlaybookWindows.yaml 
 
