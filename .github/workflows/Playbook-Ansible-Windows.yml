@@ -45,5 +45,5 @@ jobs:
       env:
         PYTHONIOENCODING: "utf-8"
       run: |
-        ansible-playbook -i hosts Ansible/PlaybookWindows.yaml 
+        ansible-playbook -i localhost Ansible/PlaybookWindows.yaml 
 
