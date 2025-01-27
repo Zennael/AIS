@@ -33,12 +33,12 @@ jobs:
       # Validate Molecule configuration
       - name: Validate Molecule configuration
         run: |
-          ls Ansible\molecule.yml
+          ls Ansible/
           molecule list
 
       # Run Molecule tests
       - name: Run Molecule tests
         run: |
-          cd Ansible\molecule.yml
+          cd Ansible/
           molecule test
 
