@@ -46,6 +46,7 @@ jobs:
       run: |
         echo "[windows]" > inventory.ini
         echo "${{ needs.configure-windows.outputs.windows_ip }} ansible_connection=winrm ansible_user=Administrator ansible_password=YourPassword ansible_winrm_transport=basic" >> inventory.ini
+        cat inventory.ini
 
     - name: Run Ansible Playbook
       env:
