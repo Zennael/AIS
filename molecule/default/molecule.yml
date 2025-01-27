@@ -6,6 +6,15 @@ driver:
   name: delegated
 
 platforms:
+  - name: localhost
+
+provisioner:
+  name: ansible
+
+verifier:
+  name: ansible
+
+platforms:
   - name: windows_server_2022
     image: mcr.microsoft.com/windows/server:ltsc2022
     pre_build_image: true
