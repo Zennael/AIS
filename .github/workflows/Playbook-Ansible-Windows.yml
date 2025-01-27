@@ -14,15 +14,21 @@ jobs:
     outputs:
       windows_ip: ${{ steps.set-ip.outputs.ip }}
     steps:
-    - name: Configure Static IP
+    - name: Configure Static IP on Windows
       id: set-ip
       run: |
         $ip = "192.168.11.100"
-        Write-Host "Configuring Windows IP: $ip..."
-        New-NetIPAddress -IPAddress $ip -PrefixLength 24 -DefaultGateway 192.168.11.1
-        Write-Host "IP configured successfully."
+        $interface = Get-NetAdapter | Where-Object { $_.Status -eq "Up" } | Select-Object -First 1
+        if (-not $interface) {
+          Write-Error "No active network interface found. Exiting."
+          exit 1
+        }
+        Write-Host "Configuring Windows IP: $ip on interface $($interface.InterfaceAlias)..."
+        New-NetIPAddress -IPAddress $ip -PrefixLength 24 -DefaultGateway 192.168.11.1 -InterfaceAlias $interface.InterfaceAlias
+        Write-Host "IP configured successfully on $($interface.InterfaceAlias)."
         echo $ip > windows_ip.txt
         echo "::set-output name=ip::$ip"
+
 
     - name: Configure WinRM
       run: |
