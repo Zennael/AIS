@@ -28,17 +28,17 @@ jobs:
       - name: Install Molecule and dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install molecule molecule[docker] ansible pywinrm
+          pip install molecule molecule[docker] molecule-core ansible pywinrm
 
-      # Validate Molecule configuration
-      - name: Validate Molecule configuration
+      # Verify Molecule drivers
+      - name: Verify Molecule drivers
         run: |
-          ls Ansible/
-          molecule list
+          molecule --help
 
       # Run Molecule tests
       - name: Run Molecule tests
         run: |
-          cd Ansible/
+          cd Ansible/molecule/default
           molecule test
+
 
