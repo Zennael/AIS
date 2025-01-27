@@ -52,5 +52,5 @@ jobs:
         PYTHONIOENCODING: utf-8
         PYTHONUTF8: "1"
       run: |
-        ansible-playbook -i inventory.ini Ansible/PlaybookWindows.yaml 
+        ansible-playbook -i Ansible/inventory.ini Ansible/PlaybookWindows.yaml 
 
